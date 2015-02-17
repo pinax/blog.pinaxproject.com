@@ -3,3 +3,5 @@ pinax-theme-bootstrap==5.7.2
 pinax-blog==3.0.2
 pytz==2014.10
 psycopg2==2.6
+
+requests==2.5.1
