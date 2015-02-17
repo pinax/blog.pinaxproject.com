@@ -1,8 +1,5 @@
-pinax-project-blog
-==================
+The Pinax Project Blog
+======================
 
-This project gets you off and running with a blog.
-
-Usage:
-
-    django-admin.py startproject --template=https://github.com/pinax/pinax-project-blog/zipball/master <project_name>
+The code behind the Pinax Project Blog based on `pinax-blog` app and
+`pinax-project-blog` starter project.
