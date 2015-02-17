@@ -20,6 +20,12 @@ RENAMES = [
     ("agon-ratings", "pinax-ratings")
 ]
 
+RENDER_FUNC = curry(
+    load_path_attr(
+        settings.PINAX_BLOG_MARKUP_CHOICE_MAP["markdown"]["parser"]
+    )
+)
+
 
 class Command(BaseCommand):
     help = "generate release notes blog post drafts"
@@ -51,9 +57,14 @@ class Command(BaseCommand):
             if next_link:
                 return next_link[0][0].replace("<", "").replace(">", "")
 
-    def _fetch_url(self, url):
-        r = self.session.get(url)
-        print "Rate Limits", r.headers.get("X-RateLimit-Limit"), "/", r.headers.get("X-RateLimit-Remaining")
+    def _fetch_url(self, url, params=None):
+        r = self.session.get(url, params=params)
+        print "Rate Limits {} / {}: {} with {}".format(
+            r.headers.get("X-RateLimit-Limit"),
+            r.headers.get("X-RateLimit-Remaining"),
+            url,
+            params
+        )
         data = r.json()
         next_url = self._next_url(r.headers)
         if next_url:
@@ -62,80 +73,113 @@ class Command(BaseCommand):
             )
         return data
 
-    def _fetch(self, path):
-        return self._fetch_url("https://api.github.com{}?per_page=100".format(path))
+    def _fetch(self, path, **kwargs):
+        kwargs.update(dict(per_page=100))
+        return self._fetch_url(
+            "https://api.github.com{}".format(path),
+            params=kwargs
+        )
 
     def fetch_repos(self, org):
-        return self._fetch("/orgs/{}/repos?type=sources".format(org))
+        return self._fetch("/orgs/{}/repos".format(org), type="sources")
 
-    def generate_release_note(self, org, name):
+    def fetch_commits(self, org, repo, until, since=None):
+        commits = []
+        url = "/repos/{}/{}/commits".format(org, repo)
+        if since:
+            commits = self._fetch(url, since=since, until=until)
+        else:
+            commits = self._fetch(url, until=until)
+        return commits
+
+    def format_title(self, name, release_url, version, date, commits):
+        return "{} {} Released".format(name, version)
+
+    def format_slug(self, name, release_url, version, date, commits):
+        return "{}-{}-released".format(name, version.replace(".", "-"))
+
+    def format_teaser(self, name, release_url, version, date, commits):
+        return "A new release of {}".format(name)
+
+    def format_content(self, name, release_url, version, date, commits):
+        content = u"This release includes the following:\n\n"
+        for commit in commits:
+            content += u"* {}\n".format(
+                commit["commit"]["message"].split("\n")[0]
+            )
+        content += u"\n\nDownload: <{}>".format(release_url)
+        return content
+
+    def format_description(self, name, release_url, version, date, commits):
+        return "A new release of {}.".format(name)
+
+    def create_post(self, name, release_url, version, date, commits):
+        title = self.format_title(name, release_url, version, date, commits)
+        slug = self.format_slug(name, release_url, version, date, commits)
+        teaser = self.format_teaser(name, release_url, version, date, commits)
+        content = self.format_content(name, release_url, version, date, commits)
+        description = self.format_description(name, release_url, version, date, commits)
+        post = Post.objects.create(
+            section=2,  # Release Notes
+            author=self.author,
+            title=title,
+            slug=slug,
+            markup="markdown",
+            teaser_html=RENDER_FUNC(teaser),
+            content_html=RENDER_FUNC(content),
+            description=description,
+            created=date,
+            updated=date,
+            published=date
+        )
+        Revision.objects.create(
+            post=post,
+            title=post.title,
+            teaser=teaser,
+            content=content,
+            author=post.author,
+            updated=post.updated,
+            published=post.published
+        )
+
+    def get_releases(self, name):
         releases = []
         if name in ["pinax"]:
-            return
+            releases
         print "Processing {}".format(name)
         try:
-            pypi_data = self.pypi_session.get("http://pypi.python.org/pypi/{}/json".format(name)).json()
+            pypi_data = self.pypi_session.get(
+                "http://pypi.python.org/pypi/{}/json".format(name)
+            ).json()
             for release in pypi_data["releases"]:
                 if pypi_data["releases"][release]:
                     rdata = pypi_data["releases"][release][0]
                     url = rdata["url"]
-                    date = pytz.timezone("UTC").localize(parse_datetime(rdata["upload_time"]))
-                    releases.append((date, release, url, rdata["upload_time"] + "Z"))
-        except Exception as e:
+                    date = pytz.timezone("UTC").localize(
+                        parse_datetime(rdata["upload_time"])
+                    )
+                    releases.append(
+                        (date, release, url, rdata["upload_time"] + "Z")
+                    )
+        except Exception:
             pass
         releases.sort()
+        return releases
+
+    def generate_release_note(self, org, name):
+        releases = self.get_releases(name)
         prev = None
         for release in releases:
-            if prev:
-                commits = self._fetch_url("https://api.github.com/repos/{}/{}/commits?since={}&until={}".format(
-                    org,
-                    name,
-                    prev,
-                    release[3]
-                ))
-            else:
-                commits = self._fetch_url("https://api.github.com/repos/{}/{}/commits?until={}".format(
-                    org,
-                    name,
-                    release[3]
-                ))
-            commits = [c for c in commits if not c["commit"]["message"].startswith("Merge pull")]
+            commits = self.fetch_commits(org, name, release[3], prev)
+            commits = [
+                c
+                for c in commits
+                if not c["commit"]["message"].startswith("Merge pull")
+            ]
             if len(commits) == 0:
                 continue
             prev = release[3]
-            render_func = curry(
-                load_path_attr(
-                    settings.PINAX_BLOG_MARKUP_CHOICE_MAP["markdown"]["parser"]
-                )
-            )
-            teaser = "A new release of {}".format(name)
-            content = u"This release includes the following:\n\n"
-            for commit in commits:
-                content += u"* {}\n".format(commit["commit"]["message"].split("\n")[0])
-            content += u"\n\nDownload: <{}>".format(release[2])
-            description = "A new release of {}.".format(name)
-            post = Post.objects.create(
-                section=2,  # Release Notes
-                author=self.author,
-                title="{} {} Released".format(name, release[1]),
-                slug="{}-{}-released".format(name, release[1].replace(".", "-")),
-                markup="markdown",
-                teaser_html=render_func(teaser),
-                content_html=render_func(content),
-                description=description,
-                created=release[0],
-                updated=release[0],
-                published=release[0]
-            )
-            Revision.objects.create(
-                post=post,
-                title=post.title,
-                teaser=teaser,
-                content=content,
-                author=post.author,
-                updated=post.updated,
-                published=post.published
-            )
+            self.create_post(name, release[2], release[1], release[0], commits)
 
     def handle(self, *args, **options):
         auth_token = options["token"]
