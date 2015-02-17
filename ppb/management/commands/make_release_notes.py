@@ -144,6 +144,7 @@ class Command(BaseCommand):
             updated=date,
             published=date
         )
+        post.tags.add(name)
         Revision.objects.create(
             post=post,
             title=post.title,

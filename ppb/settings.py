@@ -127,6 +127,7 @@ INSTALLED_APPS = [
 
     # external
     "pinax.blog",
+    "taggit",
 
     # project
     "ppb",

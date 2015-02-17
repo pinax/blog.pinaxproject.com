@@ -5,3 +5,4 @@ pytz==2014.10
 psycopg2==2.6
 
 requests==2.5.1
+django-taggit==0.12.2
