@@ -129,6 +129,8 @@ class Command(BaseCommand):
         teaser = self.format_teaser(name, release_url, version, date, commits)
         content = self.format_content(name, release_url, version, date, commits)
         description = self.format_description(name, release_url, version, date, commits)
+        if Post.objects.filter(slug=slug).exists():
+            return
         post = Post.objects.create(
             section=2,  # Release Notes
             author=self.author,
