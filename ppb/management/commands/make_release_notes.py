@@ -107,7 +107,17 @@ class Command(BaseCommand):
             content += u"* {}\n".format(
                 commit["commit"]["message"].split("\n")[0]
             )
-        content += u"\n\nDownload: <{}>".format(release_url)
+        content += u"\n\n[Download tarball from PyPI]({})".format(release_url)
+        if commits[-1]["parents"]:
+            begin_sha = commits[-1]["parents"][0]["sha"]
+        else:
+            begin_sha = commits[-1]["sha"]
+        content += u"\n\n[View changeset on GitHub]({})".format(
+            commits[0]["html_url"].replace(
+                "commit/",
+                "compare/{}...".format(begin_sha)
+            )
+        )
         return content
 
     def format_description(self, name, release_url, version, date, commits):
