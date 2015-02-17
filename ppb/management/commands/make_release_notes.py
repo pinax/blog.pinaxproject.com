@@ -154,14 +154,16 @@ class Command(BaseCommand):
             published=post.published
         )
 
-    def get_releases(self, name):
+    def get_releases(self, name, pypi_name=None):
+        if pypi_name is None:
+            pypi_name = name
         releases = []
         if name in ["pinax"]:
             releases
-        print "Processing {}".format(name)
+        print "Processing {}".format(pypi_name)
         try:
             pypi_data = self.pypi_session.get(
-                "http://pypi.python.org/pypi/{}/json".format(name)
+                "http://pypi.python.org/pypi/{}/json".format(pypi_name)
             ).json()
             for release in pypi_data["releases"]:
                 if pypi_data["releases"][release]:
@@ -178,8 +180,8 @@ class Command(BaseCommand):
         releases.sort()
         return releases
 
-    def generate_release_note(self, org, name):
-        releases = self.get_releases(name)
+    def generate_release_note(self, org, name, pypi_name=None):
+        releases = self.get_releases(name, pypi_name)
         prev = None
         for release in releases:
             commits = self.fetch_commits(org, name, release[3], prev)
@@ -191,7 +193,7 @@ class Command(BaseCommand):
             if len(commits) == 0:
                 continue
             prev = release[3]
-            self.create_post(name, release[2], release[1], release[0], commits)
+            self.create_post(pypi_name or name, release[2], release[1], release[0], commits)
 
     def handle(self, *args, **options):
         auth_token = options["token"]
@@ -207,9 +209,12 @@ class Command(BaseCommand):
             "Authorization": "token {}".format(auth_token)
         })
         self.pypi_session = requests.Session()
-        public_repos = [r for r in self.fetch_repos(org) if not r["private"]]
         if pkg is None:
+            public_repos = [r for r in self.fetch_repos(org) if not r["private"]]
             for repo in public_repos:
                 self.generate_release_note(org, repo["name"])
+            if org == "pinax":
+                for rename in RENAMES:
+                    self.generate_release_note(org, rename[1], rename[0])
         else:
             self.generate_release_note(org, pkg)
