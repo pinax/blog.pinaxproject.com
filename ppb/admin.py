@@ -56,10 +56,10 @@ class PostTagsAdmin(PostAdmin):
         "description",
         "primary_image",
         "sharable_url",
-        "publish",
+        "state",
         "tags"
     ]
-    list_filter = ["section", TaggitListFilter]
+    list_filter = ["section", "state", TaggitListFilter]
 
 
 admin.site.unregister(Post)

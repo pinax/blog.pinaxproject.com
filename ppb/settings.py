@@ -169,5 +169,5 @@ LOGGING = {
 FIXTURE_DIRS = [
     os.path.join(PROJECT_ROOT, "fixtures"),
 ]
-
+PINAX_BLOG_UNPUBLISHED_STATES = ["Raw", "Draft", "Reviewed"]
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
