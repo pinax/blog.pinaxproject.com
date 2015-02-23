@@ -9,7 +9,7 @@ FIELDS.append("tags")
 
 class AdminPostTagsForm(AdminPostForm):
 
-    tags = TagField()
+    tags = TagField(required=False)
 
     class Meta:
         model = Post
