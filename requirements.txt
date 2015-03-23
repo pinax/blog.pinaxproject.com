@@ -3,8 +3,13 @@ pinax-theme-bootstrap==5.7.2
 django-bootstrap-form==3.2
 pinax-blog==4.0.2
 pytz==2014.10
-psycopg2==2.6
 
 requests==2.6.0
 django-taggit==0.12.3
 Markdown==2.6.1
+
+# hosting
+gondor==1.2.5
+gunicorn==19.3.0
+psycopg2==2.6
+opbeat==2.0.4
