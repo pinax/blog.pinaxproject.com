@@ -1,5 +1,7 @@
 {% extends "pinax/blog/blog_base.html" %}
 
+{% load ppb_tags %}
+
 {% block head_title %}{{ post.title }} &mdash; {{ SITE_NAME }}{% endblock %}
 
 {% block extra_head %}
@@ -34,7 +36,8 @@
             <h2 class="panel-title">Releated Posts</h2>
         </div>
         <div class="list-group">
-            {% for related in post.tags.similar_objects %}
+            {% related_posts post as posts %}
+            {% for related in posts %}
                 <div class="list-group-item">
                     <a href="{{ related.get_absolute_url }}">{{ related.title }}</a>
                     <br />
