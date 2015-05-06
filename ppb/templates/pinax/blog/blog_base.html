@@ -6,21 +6,27 @@
 
 
 {% block body %}
-    <div class="row blog-container">
-        <div class="col-md-3 sidebar">
-            {% block sidebar %}
-                <h1>
+    {% block sidebar %}
+        <aside class="cover">
+            <div class="cover-inner clearfix animated fadeInLeft">
+                <div class="logo">
                     <a href="{% url "blog" %}">
-                        <img src="{% static "img/pinax_logo_lg.png" %}" />
+                        <img src="{% static "img/pinax.svg" %}" width="160px" />
                     </a>
-                </h1>
-                <p class="lead">
-                    Pinax is an open-source platform of apps, starter projects, and themes, built on the Django Web Framework. It takes care of the things that many sites have in common so you can focus on what makes your site different.
-                </p>
-            {% endblock %}
-        </div>
-        <div class="col-md-8 blog-content">
+                </div>
+
+                <div class="page-info">
+                    <p>Pinax is an open-source platform of apps, starter projects, and themes, built on the Django Web Framework.</p>
+                    <p>It takes care of the things that many sites have in common so you can focus on what makes your site different.</p>
+                </div>
+            </div>
+            <div class="bg-overlay"></div>
+        </aside>
+    {% endblock %}
+
+    <section class="content-wrap">
+        <section class="content">
             {% block content %}{% endblock %}
-        </div>
-    </div>
+        </section>
+    </section>
 {% endblock %}
