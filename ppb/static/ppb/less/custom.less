@@ -3,15 +3,107 @@
 // }
 
 html {
-   height: auto;
-   min-height: 100%;
-   background: #0a4161;
+  height: auto;
+  min-height: 100%;
+  background: #0a4161;
+}
+
+body {
+  font: 16px/1.6em 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  word-wrap: break-word;
+  word-break: break-word;
+  color: #55606E;
+}
+
+.content-wrap {
+  margin-left: @sidebar-width;
+}
+
+.content {
+  margin: 0 auto;
+  max-width: 640px;
+  width: 80%;
+}
+
+.cover {
+  position: fixed;
+  width: @sidebar-width;
+  height: 100%;
+  top: 0;
+  background-size: cover;
+  background-position: top center;
+  background-color: @primary-brand-color;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: #f7f7f7;
+
+  .cover-inner {
+    z-index: 1;
+    position: relative;
+  }
+
+  .page-info {
+    font-size: 18px;
+    line-height: 1.2em;
+  }
+}
+
+.logo {
+  margin: 20px 0;
+}
+
+.post {
+  border-bottom: 1px solid #e1e6e9;
+  padding: 60px 0;
+
+  &:after {
+    border-top: 1px solid #e1e6e9;
+    content: '';
+    display: block;
+    left: @sidebar-width;
+    margin-top: 60px;
+    position: absolute;
+    width: 68%;
+  }
+}
+
+.header-entry {
+  h2 {
+    font-weight: normal;
+
+    a {
+      color: @text-color;
+    }
+  }
+}
+
+.post-meta {
+  color: #A2AAB0;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 20px;
+
+  a {
+    border-bottom: 1px solid transparent;
+    color: #A2AAB0;
+
+    &:hover {
+      color: #55606E;
+    }
+  }
+
+  .entry-footer {
+    color: #363F48;
+  }
 }
 
 .blog-content {
    border-radius: 10px;
    background: rgba(255, 255, 255, 0.95);
 }
+
 .sidebar {
    .lead {
       color: #DEF;
@@ -89,4 +181,23 @@ html {
    .vg { color: #cc6666 } /* Name.Variable.Global */
    .vi { color: #cc6666 } /* Name.Variable.Instance */
    .il { color: #de935f } /* Literal.Number.Integer.Long */
+}
+
+@media screen and (min-width : 769px) {
+  .cover-inner {
+    max-width: 350px;
+    padding: 2rem;
+  }
+}
+
+@media screen and (max-width : 640px) {
+  .content {
+    margin: 3rem auto;
+    width: 80%;
+  }
+
+  .cover-inner {
+    margin: 0 auto;
+    width: 80%;
+  }
 }
