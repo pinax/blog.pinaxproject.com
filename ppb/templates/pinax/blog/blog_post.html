@@ -11,12 +11,14 @@
 {% endblock %}
 
 {% block content %}
+    <div class="see-all-posts"><a href="{% url 'blog' %}"><i class="fa fa-align-justify"></i> See all posts</a></div>
     <div class="post-detail">
         <div class="post">
-            <h1>{{ post.title }}</h1>
-            {% include "pinax/blog/dateline_stale.html" %}
-
-            <div class="teaser">{{ post.teaser_html|safe }}</div>
+            <header class="header-entry">
+                <h2>{{ post.title }}</h2>
+                {% include "pinax/blog/dateline_stale.html" %}
+                <div class="teaser">{{ post.teaser_html|safe }}</div>
+            </header>
 
             <div class="content">{{ post.content_html|safe }}</div>
 
@@ -26,16 +28,32 @@
             </div>
         </div>
     </div>
-{% endblock %}
 
-
-{% block sidebar %}
-    {{ block.super }}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h2 class="panel-title">Releated Posts</h2>
-        </div>
-        <div class="list-group">
+    <section class="related-posts">
+        <h3>Related Posts</h3>
+        <article>
+            <ul class="list-unstyled">
+                <li>
+                    <a href="#">pinax-blog 4.0.2 Released</a>
+                    <br />
+                    <small class="text-muted">6th May 2015</small>
+                </li>
+                <li>
+                    <a href="#">django-user-accounts 1.0.2 Released</a>
+                    <br />
+                    <small class="text-muted">6th May 2015</small>
+                </li>
+                <li>
+                    <a href="#">pinax-blog 4.0.2 Released</a>
+                    <br />
+                    <small class="text-muted">6th May 2015</small>
+                </li>
+                <li>
+                    <a href="#">django-user-accounts 1.0.2 Released</a>
+                    <br />
+                    <small class="text-muted">6th May 2015</small>
+                </li>
+            </ul>
             {% related_posts post as posts %}
             {% for related in posts %}
                 <div class="list-group-item">
@@ -44,6 +62,6 @@
                     <small class="text-muted">{{ related.published }}</small>
                 </div>
             {% endfor %}
-        </div>
-    </div>
+        </article>
+    </section>
 {% endblock %}
