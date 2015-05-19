@@ -37,9 +37,9 @@ a {
   width: @sidebar-width;
   height: 100%;
   top: 0;
-  background-size: cover;
-  background-position: top center;
   background-color: @primary-brand-color;
+  background: url(../img/photo.jpg) no-repeat 0 0;
+  background-size: cover;
   font-size: 0.875rem;
   line-height: 1.6;
   color: #f7f7f7;
@@ -50,13 +50,17 @@ a {
   }
 
   .page-info {
-    font-size: 18px;
-    line-height: 1.2em;
+    font-size: 17px;
+    line-height: 1.3em;
+
+    p {
+      margin-bottom: 1em;
+    }
   }
 }
 
 .logo {
-  margin: 20px 0;
+  margin: 0 0 2.5em;
 }
 
 .post {
@@ -132,7 +136,7 @@ a {
 }
 
 .see-all-posts {
-  margin-top: 30px;
+  margin-top: 15px;
 }
 
 .blog-content {
@@ -221,8 +225,8 @@ a {
 
 @media screen and (min-width : 769px) {
   .cover-inner {
-    max-width: 370px;
-    padding: 4rem;
+    max-width: 280px;
+    padding: 110px 4rem 4rem;
   }
 }
 
