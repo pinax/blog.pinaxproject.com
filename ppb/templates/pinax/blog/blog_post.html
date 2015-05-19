@@ -33,35 +33,15 @@
         <h3>Related Posts</h3>
         <article>
             <ul class="list-unstyled">
-                <li>
-                    <a href="#">pinax-blog 4.0.2 Released</a>
-                    <br />
-                    <small class="text-muted">6th May 2015</small>
-                </li>
-                <li>
-                    <a href="#">django-user-accounts 1.0.2 Released</a>
-                    <br />
-                    <small class="text-muted">6th May 2015</small>
-                </li>
-                <li>
-                    <a href="#">pinax-blog 4.0.2 Released</a>
-                    <br />
-                    <small class="text-muted">6th May 2015</small>
-                </li>
-                <li>
-                    <a href="#">django-user-accounts 1.0.2 Released</a>
-                    <br />
-                    <small class="text-muted">6th May 2015</small>
-                </li>
+                {% related_posts post as posts %}
+                {% for related in posts %}
+                    <li>
+                        <a href="{{ related.get_absolute_url }}">{{ related.title }}</a>
+                        <br />
+                        <small class="text-muted">{{ related.published }}</small>
+                    </li>
+                {% endfor %}
             </ul>
-            {% related_posts post as posts %}
-            {% for related in posts %}
-                <div class="list-group-item">
-                    <a href="{{ related.get_absolute_url }}">{{ related.title }}</a>
-                    <br />
-                    <small class="text-muted">{{ related.published }}</small>
-                </div>
-            {% endfor %}
         </article>
     </section>
 {% endblock %}
