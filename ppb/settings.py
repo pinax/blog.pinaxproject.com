@@ -162,7 +162,10 @@ OPBEAT = {
 }
 
 PINAX_BLOG_SECTIONS = [
-    ("release-notes", "Release Notes")
+    ("release-notes", "Release Notes"),
+    ("how-tos", "How Tos"),
+    ("design-decisions", "Design Decisions"),
+    ("general", "General")
 ]
 
 # A sample logging configuration. The only tangible logging
