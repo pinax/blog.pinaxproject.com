@@ -3,6 +3,11 @@
 {% load staticfiles %}
 {% load i18n %}
 
+{% block extra_head %}
+    {{ block.super }}
+    <meta name="twitter:site" content="@pinaxproject">
+    <meta property="og:site_name" content="The Pinax Blog">
+{% endblock %}
 
 {# remove to bring back topbar #}
 {% block topbar_base %}{% endblock %}
