@@ -1,6 +1,7 @@
 {% extends "site_base.html" %}
 
 {% load staticfiles %}
+{% load pinax_blog_tags %}
 
 {% block body_class %}blog{% endblock %}
 
@@ -21,13 +22,33 @@
                 </div>
 
                 <div class="search">
-                    <form class="form-inline" action="{% url "blog" %}">
+                    {% if section_slug %}
+                        {% url "blog_section" section_slug as search_url %}
+                    {% else %}
+                        {% url "blog" as search_url %}
+                    {% endif %}
+                    <form class="form-inline" action="{{ search_url }}">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                            <input class="form-control" type="search" placeholder="Search blog..." name="q" value="{{ request.GET.q }}">
+                            <input class="form-control" type="search" placeholder="Search blog..." name="q" value="{{ search_term|default:"" }}">
                         </div>
                     </form>
                 </div>
+
+                <br />
+                <ul class="sections list-group">
+                    {% blog_sections as sections %}
+                    {% for section in sections %}
+                        {% if section.0 == "all" %}
+                            {% url "blog" as section_url %}
+                        {% else %}
+                            {% url "blog_section" section.0 as section_url %}
+                        {% endif %}
+                        <li class="list-group-item {% if section_slug == section.0 %}active{% else %}{% if not section_slug and section.0 == "all" %}active{% endif %}{% endif %}">
+                            <a href="{{ section_url }}">{{ section.1 }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
         </aside>
     {% endblock %}
