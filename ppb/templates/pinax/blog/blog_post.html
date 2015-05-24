@@ -45,6 +45,9 @@
     </div>
 
     <section class="related-posts">
+        <h3>Tags</h3>
+        {% for tag in post.tags.all %}<span class="tag">{{ tag }}</span>{% endfor %}
+
         <h3>Related Posts</h3>
         <article>
             <ul class="list-unstyled">
