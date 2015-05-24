@@ -19,6 +19,15 @@
                     <p>Pinax is an open-source platform of apps, starter projects, and themes, built on the Django Web Framework.</p>
                     <p>It takes care of the things that many sites have in common so you can focus on what makes your site different.</p>
                 </div>
+
+                <div class="search">
+                    <form class="form-inline" action="{% url "blog" %}">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                            <input class="form-control" type="search" placeholder="Search blog..." name="q" value="{{ request.GET.q }}">
+                        </div>
+                    </form>
+                </div>
             </div>
         </aside>
     {% endblock %}
