@@ -45,16 +45,20 @@
         </div>
     </div>
 
-    <section class="related-posts">
-        {% if post.tags.all %}
+    {% if post.tags.all %}
+        <section class="tags">
             <h3>Tags</h3>
-            {% for tag in post.tags.all %}<span class="tag">{{ tag }}</span>{% endfor %}
-        {% endif %}
+            <a href="#"><i class="fa fa-tag"></i>tag</a>
+            {% for tag in post.tags.all %}
+                <a href="#"><i class="fa fa-tag"></i> {{ tag }}</a>
+            {% endfor %}
+        </section>
+    {% endif %}
 
-        {% related_posts post as posts %}
-        {% if posts %}
-        <h3>Related Posts</h3>
-        <article>
+    {% related_posts post as posts %}
+    {% if posts %}
+        <section class="related-posts">
+            <h3>Related Posts</h3>
             <ul class="list-unstyled">
                 {% for related in posts %}
                     <li>
@@ -64,7 +68,6 @@
                     </li>
                 {% endfor %}
             </ul>
-        </article>
-        {% endif %}
-    </section>
+        </section>
+    {% endif %}
 {% endblock %}
