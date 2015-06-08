@@ -45,7 +45,6 @@ a {
   height: 100%;
   top: 0;
   background-color: @primary-brand-color;
-  background: url(../img/photo.png) no-repeat 0 0;
   background-size: cover;
   font-size: 0.875rem;
   line-height: 1.6;
@@ -274,6 +273,10 @@ form.form-search {
 }
 
 @media screen and (min-width : 992px) {
+  .cover {
+    background: url(../img/photo_v.jpg) no-repeat 0 0;
+  }
+
   .cover-inner {
     max-width: 80%;
     padding: 110px 4rem 4rem;
@@ -329,6 +332,18 @@ form.form-search {
     &:after {
       display: none;
     }
+  }
+}
+
+@media screen and (min-width : 668px) and (max-width : 991px) {
+  .cover {
+    background: url(../img/photo_h.jpg) no-repeat 0 0;
+  }
+}
+
+@media screen and (max-width : 667px) {
+  .cover {
+    background: url(../img/photo_h_s.jpg) no-repeat 0 0;
   }
 }
 
