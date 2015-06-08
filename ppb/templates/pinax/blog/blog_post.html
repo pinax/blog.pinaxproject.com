@@ -2,6 +2,8 @@
 
 {% load ppb_tags %}
 
+{% block body_class %}blog blog-post{% endblock %}
+
 {% block head_title %}{{ post.title }} &mdash; {{ SITE_NAME }}{% endblock %}
 
 {% block extra_head %}
@@ -26,7 +28,6 @@
 {% endblock %}
 
 {% block content %}
-    <div class="see-all-posts"><a href="{% url 'blog' %}"><i class="fa fa-align-justify"></i> See all posts</a></div>
     <div class="post-detail">
         <div class="post">
             <header class="header-entry">

@@ -86,21 +86,6 @@ a {
   }
 }
 
-.post-detail {
-  .post {
-    padding-top: 20px;
-
-    &:before {
-      border-top: 1px solid @base-border-color;
-      content: '';
-      display: block;
-      left: @sidebar-width;
-      position: absolute;
-      width: 100% - @sidebar-width;
-    }
-  }
-}
-
 .header-entry {
   h2 {
     font-weight: normal;
@@ -186,6 +171,28 @@ a {
   }
 }
 
+body.blog-post {
+  .hr-nav li.active a {
+    color: #A2AAB0;
+  }
+}
+
+form.form-search {
+  position: relative;
+  margin-top: 20px;
+
+  input {
+    padding-left: 28px;
+  }
+
+  label {
+    position: absolute;
+    left: 10px;
+    top: 6px;
+    color: #999;
+    font-size: 13px;
+  }
+}
 
 // Tomorrow Night Theme for Code Highlighting
 .codehilitetable {
