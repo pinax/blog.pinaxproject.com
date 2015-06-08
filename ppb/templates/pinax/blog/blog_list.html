@@ -3,9 +3,6 @@
 {% block head_title %}{{ SITE_NAME }}{% endblock %}
 
 {% block content %}
-    {% if section_name %}
-        <h1>{{ section_name }}</h1>
-    {% endif %}
     {% if posts %}
         <div class="post-list">
             {% for post in posts %}

@@ -1,5 +1,6 @@
 @primary-brand-color: #0a4161;
 @sidebar-width: 25%;
+@base-border-color: #e1e6e9;
 
 html {
   height: auto;
@@ -26,6 +27,10 @@ a {
 
 .content-wrap, .panel {
   margin-left: @sidebar-width;
+}
+
+.content-wrap {
+  padding-top: 95px;
 }
 
 .content-details {
@@ -67,17 +72,17 @@ a {
 }
 
 .post {
-  border-bottom: 1px solid #e1e6e9;
+  border-bottom: 1px solid @base-border-color;
   padding: 60px 0;
 
   &:after {
-    border-top: 1px solid #e1e6e9;
+    border-top: 1px solid @base-border-color;
     content: '';
     display: block;
     left: @sidebar-width;
     margin-top: 60px;
     position: absolute;
-    width: 68%;
+    width: 100% - @sidebar-width;
   }
 }
 
@@ -86,12 +91,12 @@ a {
     padding-top: 20px;
 
     &:before {
-      border-top: 1px solid #e1e6e9;
+      border-top: 1px solid @base-border-color;
       content: '';
       display: block;
       left: @sidebar-width;
       position: absolute;
-      width: 68%;
+      width: 100% - @sidebar-width;
     }
   }
 }
@@ -152,6 +157,39 @@ a {
       color: #DEF;
    }
 }
+
+.hr-nav {
+  margin: 0;
+  padding-left: 0;
+  border-bottom: 1px solid @base-border-color;
+
+  &:after {
+    border-top: 1px solid @base-border-color;
+    content: '';
+    display: block;
+    left: @sidebar-width;
+    position: absolute;
+    width: 100% - @sidebar-width;
+  }
+
+  li {
+    display: inline-block;
+    margin: 0 20px 0 0;
+    padding: 0 0 20px 0;
+    background: #FFF;
+    font-weight: 500;
+
+    a {
+      color: #A2AAB0;
+    }
+
+    a:hover,
+    &.active a {
+      color: @link-color;
+    }
+  }
+}
+
 
 // Tomorrow Night Theme for Code Highlighting
 .codehilitetable {
@@ -281,11 +319,24 @@ a {
     position: relative;
     width: 100%;
   }
+
+  .hr-nav {
+    border-bottom: 1px solid @base-border-color;
+
+    &:after {
+      display: none;
+    }
+  }
 }
 
 @media screen and (max-width : 767px) {
   .cover-inner, .content-details {
     max-width: 40rem;
+  }
+
+  .hr-nav-mobile {
+    border-bottom: 1px solid @base-border-color;
+    padding-bottom: 40px;
   }
 }
 
