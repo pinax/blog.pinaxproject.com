@@ -3,9 +3,9 @@
 {% block head_title %}{{ SITE_NAME }}{% endblock %}
 
 {% block content %}
-    {% if posts %}
+    {% if post_list %}
         <div class="post-list">
-            {% for post in posts %}
+            {% for post in post_list %}
                 <div class="post">
                     <header class="header-entry">
                         <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
@@ -16,6 +16,7 @@
                 </div>
             {% endfor %}
         </div>
+        {% include "pagination/builtin_pagination.html" %}
     {% else %}
         <section>
             No results found.
