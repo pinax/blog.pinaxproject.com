@@ -1,26 +1,90 @@
 {% extends "site_base.html" %}
 
 {% load staticfiles %}
+{% load pinax_blog_tags %}
 
 {% block body_class %}blog{% endblock %}
 
-
 {% block body %}
-    <div class="row blog-container">
-        <div class="col-md-3 sidebar">
-            {% block sidebar %}
-                <h1>
+    {% block sidebar %}
+        <aside class="cover">
+            <div class="cover-inner clearfix animated fadeInLeft">
+                <div class="logo">
                     <a href="{% url "blog" %}">
-                        <img src="{% static "img/pinax_logo_lg.png" %}" />
+                        <img src="{% static "img/pinax.svg" %}" />
                     </a>
-                </h1>
-                <p class="lead">
-                    Pinax is an open-source platform of apps, starter projects, and themes, built on the Django Web Framework. It takes care of the things that many sites have in common so you can focus on what makes your site different.
-                </p>
-            {% endblock %}
-        </div>
-        <div class="col-md-8 blog-content">
+                </div>
+
+                <div class="page-info">
+                    <p>Pinax is an open-source platform of apps, starter projects, and themes, built on the Django Web Framework.</p>
+                    <p>It takes care of the things that many sites have in common so you can focus on what makes your site different.</p>
+                </div>
+
+                <div class="search">
+                    {% if section_slug %}
+                        {% url "blog_section" section_slug as search_url %}
+                    {% else %}
+                        {% url "blog" as search_url %}
+                    {% endif %}
+
+                    <form class="form-search" action="{{ search_url }}">
+                        <label><i class="fa fa-search"></i></label>
+                        <input class="form-control" type="search" placeholder="Search..." name="q" value="{{ search_term|default:"" }}">
+                    </form>
+                </div>
+            </div>
+        </aside>
+    {% endblock %}
+
+    <section class="content-wrap">
+        <section class="content-details">
+            <ul class="hr-nav hidden-xs">
+                {% blog_sections as sections %}
+                {% for section in sections %}
+                    {% if section.0 == "all" %}
+                        {% url "blog" as section_url %}
+                    {% else %}
+                        {% url "blog_section" section.0 as section_url %}
+                    {% endif %}
+                    <li class="{% if section_slug == section.0 %}active{% else %}{% if not section_slug and section.0 == "all" %}active{% endif %}{% endif %}">
+                        <a href="{{ section_url }}">{{ section.1 }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <article class="hr-nav-mobile visible-xs">
+                <div class="dropdown">
+                    View posts:
+                    {% for section in sections %}
+                        {% if section_slug == section.0 %}
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                {{ section.1 }}
+                                <span class="caret"></span>
+                            </button>
+                        {% else %}
+                            {% if not section_slug and section.0 == "all" %}
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                    All
+                                    <span class="caret"></span>
+                                </button>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    <ul class="dropdown-menu" role="menu">
+                        {% for section in sections %}
+                            {% if section.0 == "all" %}
+                                {% url "blog" as section_url %}
+                            {% else %}
+                                {% url "blog_section" section.0 as section_url %}
+                            {% endif %}
+                            <li class="{% if section_slug == section.0 %}active{% else %}{% if not section_slug and section.0 == "all" %}active{% endif %}{% endif %}">
+                                <a href="{{ section_url }}">{{ section.1 }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </article>
             {% block content %}{% endblock %}
-        </div>
-    </div>
+        </section>
+    </section>
 {% endblock %}

@@ -2,6 +2,8 @@
 
 {% load ppb_tags %}
 
+{% block body_class %}blog blog-post{% endblock %}
+
 {% block head_title %}{{ post.title }} &mdash; {{ SITE_NAME }}{% endblock %}
 
 {% block extra_head %}
@@ -28,10 +30,11 @@
 {% block content %}
     <div class="post-detail">
         <div class="post">
-            <h1>{{ post.title }}</h1>
-            {% include "pinax/blog/dateline_stale.html" %}
-
-            <div class="teaser">{{ post.teaser_html|safe }}</div>
+            <header class="header-entry">
+                <h2>{{ post.title }}</h2>
+                {% include "pinax/blog/dateline_stale.html" %}
+                <div class="teaser">{{ post.teaser_html|safe }}</div>
+            </header>
 
             <div class="content">{{ post.content_html|safe }}</div>
 
@@ -41,24 +44,30 @@
             </div>
         </div>
     </div>
-{% endblock %}
 
-
-{% block sidebar %}
-    {{ block.super }}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h2 class="panel-title">Releated Posts</h2>
-        </div>
-        <div class="list-group">
-            {% related_posts post as posts %}
-            {% for related in posts %}
-                <div class="list-group-item">
-                    <a href="{{ related.get_absolute_url }}">{{ related.title }}</a>
-                    <br />
-                    <small class="text-muted">{{ related.published }}</small>
-                </div>
+    {% if post.tags.all %}
+        <section class="tags">
+            <h3>Tags</h3>
+            <a href="#"><i class="fa fa-tag"></i>tag</a>
+            {% for tag in post.tags.all %}
+                <a href="#"><i class="fa fa-tag"></i> {{ tag }}</a>
             {% endfor %}
-        </div>
-    </div>
+        </section>
+    {% endif %}
+
+    {% related_posts post as posts %}
+    {% if posts %}
+        <section class="related-posts">
+            <h3>Related Posts</h3>
+            <ul class="list-unstyled">
+                {% for related in posts %}
+                    <li>
+                        <a href="{{ related.get_absolute_url }}">{{ related.title }}</a>
+                        <br />
+                        <small class="text-muted">{{ related.published }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endif %}
 {% endblock %}
