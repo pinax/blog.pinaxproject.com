@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 import pytz
 import requests
 
-from pinax.blog.models import Post, Revision
+from pinax.blog.models import Post, Revision, Section
 from pinax.blog.utils import load_path_attr
 
 
@@ -132,7 +132,7 @@ class Command(BaseCommand):
         if Post.objects.filter(slug=slug).exists():
             return
         post = Post.objects.create(
-            section=2,  # Release Notes
+            section=self.section,
             author=self.author,
             title=title,
             slug=slug,
@@ -209,6 +209,7 @@ class Command(BaseCommand):
             "Accept": "application/vnd.github.v3+json",
             "Authorization": "token {}".format(auth_token)
         })
+        self.section = Section.objects.get(slug="release-notes")
         self.pypi_session = requests.Session()
         if pkg is None:
             public_repos = [r for r in self.fetch_repos(org) if not r["private"]]
