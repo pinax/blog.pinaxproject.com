@@ -4,7 +4,7 @@
 
 {% block body_class %}blog blog-post{% endblock %}
 
-{% block head_title %}{{ post.title }} &mdash; {{ SITE_NAME }}{% endblock %}
+{% block head_title_base %}{{ post.title }} | {{ SITE_NAME }}{% endblock %}
 
 {% block extra_head %}
     {{ block.super }}
