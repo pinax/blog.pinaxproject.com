@@ -161,6 +161,8 @@ OPBEAT = {
     "SECRET_TOKEN": os.environ.get("OPBEAT_SECRET_TOKEN")
 }
 
+PINAX_BLOG_FEED_TITLE = "The Pinax Project Blog"
+PINAX_BLOG_SECTION_FEED_TITLE = "The Pinax Project Blog (%s)"
 PINAX_BLOG_SECTIONS = [
     ("release-notes", "Release Notes"),
     ("how-tos", "How Tos"),
