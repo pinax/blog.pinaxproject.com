@@ -148,8 +148,10 @@ INSTALLED_APPS = [
 
     # external
     "pinax.blog",
+    "pinax.pages",
     "taggit",
     "opbeat.contrib.django",
+    "reversion",
 
     # project
     "ppb",

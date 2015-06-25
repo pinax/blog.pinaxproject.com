@@ -12,6 +12,7 @@ urlpatterns = patterns(
     url(r"^admin/", include(admin.site.urls)),
     url(r'^tags/(?P<tag>.*)/$', TagBlogIndexView.as_view(), name="blog_tagged_posts"),
     url(r"", include("pinax.blog.urls")),
+    url(r"", include("pinax.pages.urls"))
 )
 
 
