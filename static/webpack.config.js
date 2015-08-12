@@ -2,8 +2,6 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var path = require("path");
 var webpack = require("webpack");
 
-console.log("OUTPUT", __dirname, path.resolve(__dirname, "src/images"));
-
 module.exports = {
     context: path.resolve(__dirname, "src"),
     entry: {
