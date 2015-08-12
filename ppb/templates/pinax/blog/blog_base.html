@@ -61,33 +61,28 @@
             <article class="hr-nav-mobile visible-xs">
                 <div class="dropdown">
                     View posts:
-                    {% for section in sections %}
-                        {% if section_slug == section.0 %}
-                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-                                {{ section.1 }}
-                                <span class="caret"></span>
-                            </button>
-                        {% else %}
-                            {% if not section_slug and section.0 == "all" %}
-                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-                                    All
-                                    <span class="caret"></span>
-                                </button>
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                    <ul class="dropdown-menu" role="menu">
-                        {% for section in sections %}
-                            {% if section.0 == "all" %}
-                                {% url "blog" as section_url %}
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% if current_section == "all" %}
+                                All
                             {% else %}
-                                {% url "blog_section" section.0 as section_url %}
+                                {% for section in sections %}
+                                    {% if current_section == section %}{{ section.name }}{% endif %}
+                                {% endfor %}
                             {% endif %}
-                            <li class="{% if section_slug == section.0 %}active{% else %}{% if not section_slug and section.0 == "all" %}active{% endif %}{% endif %}">
-                                <a href="{{ section_url }}">{{ section.1 }}</a>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li class="{% if current_section == "all" %}active{% endif %}">
+                                <a href="{% url "blog" %}">All</a>
                             </li>
-                        {% endfor %}
-                    </ul>
+                            {% for section in sections %}
+                                <li class="{% if current_section == section %}active{% endif %}">
+                                    <a href="{% url "blog_section" section.slug %}">{{ section.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             </article>
             {% block content %}{% endblock %}
