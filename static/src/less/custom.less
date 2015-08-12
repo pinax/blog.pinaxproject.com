@@ -65,6 +65,7 @@ a {
   width: @sidebar-width;
   height: 100%;
   top: 0;
+  bottom: 0;
   background-color: @primary-brand-color;
   background-size: cover;
   font-size: 0.875rem;
@@ -236,6 +237,7 @@ form.form-search {
 @media screen and (min-width : 992px) {
   .cover {
     background: url(../images/photo_v.jpg) no-repeat 0 0;
+    background-size: cover;
   }
 
   .cover-inner {
@@ -299,12 +301,14 @@ form.form-search {
 @media screen and (min-width : 668px) and (max-width : 991px) {
   .cover {
     background: url(../images/photo_h.jpg) no-repeat 0 0;
+    background-size: cover;
   }
 }
 
 @media screen and (max-width : 667px) {
   .cover {
     background: url(../images/photo_h_s.jpg) no-repeat 0 0;
+    background-size: cover;
   }
 }
 
