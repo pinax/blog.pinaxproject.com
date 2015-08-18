@@ -152,6 +152,7 @@ INSTALLED_APPS = [
     "taggit",
     "opbeat.contrib.django",
     "reversion",
+    "metron",
 
     # project
     "ppb",
@@ -198,6 +199,12 @@ LOGGING = {
             "level": "ERROR",
             "propagate": True,
         },
+    }
+}
+
+METRON_SETTINGS = {
+    "google": {
+        2: "UA-2401894-50",
     }
 }
 

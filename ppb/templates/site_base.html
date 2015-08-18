@@ -2,6 +2,7 @@
 
 {% load staticfiles %}
 {% load i18n %}
+{% load metron_tags %}
 
 {# remove to bring back topbar #}
 {% block topbar_base %}{% endblock %}
@@ -32,5 +33,6 @@
 {% endblock %}
 
 {% block extra_body_base %}
+    {% analytics %}
     {% block extra_body %}{% endblock %}
 {% endblock %}
