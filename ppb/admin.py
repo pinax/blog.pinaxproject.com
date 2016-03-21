@@ -57,6 +57,7 @@ class PostTagsAdmin(PostAdmin):
         "primary_image",
         "sharable_url",
         "state",
+        "published",
         "tags"
     ]
     list_filter = ["section", "state", TaggitListFilter]

@@ -10,7 +10,7 @@
         <aside class="cover">
             <div class="cover-inner clearfix animated fadeInLeft">
                 <div class="logo">
-                    <a href="{% url "blog" %}">
+                    <a href="{% url "pinax_blog:blog" %}">
                         <img src="{% static "images/pinax.svg" %}" />
                     </a>
                 </div>
@@ -30,9 +30,9 @@
 
                 <div class="search">
                     {% if section_slug %}
-                        {% url "blog_section" section_slug as search_url %}
+                        {% url "pinax_blog:blog_section" section_slug as search_url %}
                     {% else %}
-                        {% url "blog" as search_url %}
+                        {% url "pinax_blog:blog" as search_url %}
                     {% endif %}
 
                     <form class="form-search" action="{{ search_url }}">
@@ -48,12 +48,12 @@
         <section class="content-details">
             <ul class="hr-nav hidden-xs">
                 <li class="{% if current_section == "all" %}active{% endif %}">
-                    <a href="{% url "blog" %}">All</a>
+                    <a href="{% url "pinax_blog:blog" %}">All</a>
                 </li>
                 {% blog_sections as sections %}
                 {% for section in sections %}
                     <li class="{% if current_section == section %}active{% endif %}">
-                        <a href="{% url "blog_section" section.slug %}">{{ section.name }}</a>
+                        <a href="{% url "pinax_blog:blog_section" section.slug %}">{{ section.name }}</a>
                     </li>
                 {% endfor %}
             </ul>
@@ -74,11 +74,11 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li class="{% if current_section == "all" %}active{% endif %}">
-                                <a href="{% url "blog" %}">All</a>
+                                <a href="{% url "pinax_blog:blog" %}">All</a>
                             </li>
                             {% for section in sections %}
                                 <li class="{% if current_section == section %}active{% endif %}">
-                                    <a href="{% url "blog_section" section.slug %}">{{ section.name }}</a>
+                                    <a href="{% url "pinax_blog:blog_section" section.slug %}">{{ section.name }}</a>
                                 </li>
                             {% endfor %}
                         </ul>
