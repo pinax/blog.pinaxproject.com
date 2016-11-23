@@ -61,6 +61,18 @@ STATIC_ROOT = os.path.join(
 MEDIA_URL = "/site_media/media/"
 STATIC_URL = "/site_media/static/"
 
+if "GCS_BUCKET" in os.environ:
+    GCS_ROOT = "https://storage.googleapis.com/{bucket_name}/".format(
+        bucket_name=os.environ.get("GCS_BUCKET")
+    )
+
+    MEDIA_PREFIX = "media"
+    MEDIA_URL = "{gcs_root}{prefix}/".format(
+        gcs_root=GCS_ROOT,
+        prefix=MEDIA_PREFIX,
+    )
+    DEFAULT_FILE_STORAGE = "ppb.storage.ECGoogleCloudStorage"
+
 # Additional locations of static files
 STATICFILES_DIRS = [
     os.path.join(PROJECT_ROOT, "static", "dist"),
