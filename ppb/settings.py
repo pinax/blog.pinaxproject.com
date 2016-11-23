@@ -14,6 +14,7 @@ DATABASES = {
 }
 
 ALLOWED_HOSTS = [
+    "localhost",
     "blog.pinaxproject.com"
 ]
 
