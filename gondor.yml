@@ -1,4 +1,5 @@
 site: pinax/blog-pinaxproject-com
+buildpack: https://buildpack.gondor.io/python
 branches:
   master: primary
 deploy:
