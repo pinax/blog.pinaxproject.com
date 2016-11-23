@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 
 from django.contrib import admin
 
-from .views import TagBlogIndexView
+from .views import redirect_media, TagBlogIndexView
 
 
 urlpatterns = [
@@ -15,4 +15,10 @@ urlpatterns = [
 ]
 
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+else:
+    # fallback for old site media
+    urlpatterns += (
+        url(r"^site_media/media/(?P<path>.*$)", redirect_media, name="redirect_media"),
+    )
