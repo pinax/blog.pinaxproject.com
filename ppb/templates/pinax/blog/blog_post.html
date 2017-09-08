@@ -9,7 +9,11 @@
 {% block extra_head %}
     {{ block.super }}
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:image" content="https://pbs.twimg.com/profile_images/62846141/pinaxproject_avatar.png">
+    {% if post.primary_image %}
+        <meta name="twitter:image" content="{{ post.primary_image.image_path.url }}">
+    {% else %}
+        <meta name="twitter:image" content="https://pbs.twimg.com/profile_images/62846141/pinaxproject_avatar.png">
+    {% endif %}
     <meta property="og:title" content="{{ post.title }}">
     {% if post.description %}
         <meta name="description" content="{{ post.description }}">
@@ -19,7 +23,7 @@
         <meta property="og:description" content="{{ post.teaser_html|striptags }}">
     {% endif %}
     {% if post.primary_image %}
-        <meta property="og:image" content="http://{{ SITE_DOMAIN }}{{ post.primary_image.image_path.url }}">
+        <meta property="og:image" content="{{ post.primary_image.image_path.url }}">
     {% else %}
         <meta property="og:image" content="https://pbs.twimg.com/profile_images/62846141/pinaxproject_avatar.png">
     {% endif %}
