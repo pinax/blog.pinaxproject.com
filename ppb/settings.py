@@ -15,13 +15,9 @@ DATABASES = {
 
 ALLOWED_HOSTS = [
     "localhost",
-    "blog.pinaxproject.com"
+    "blog.pinaxproject.com",
+    "blog-pinaxproject-com.herokuapp.com"
 ]
-
-if os.environ.get("GONDOR_INSTANCE_DOMAIN") is not None:
-    ALLOWED_HOSTS.append(
-        os.environ["GONDOR_INSTANCE_DOMAIN"]
-    )
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -48,12 +44,12 @@ USE_L10N = True
 USE_TZ = True
 
 MEDIA_ROOT = os.path.join(
-    os.environ.get("GONDOR_DATA_DIR", PACKAGE_ROOT),
+    PACKAGE_ROOT,
     "site_media",
     "media"
 )
 STATIC_ROOT = os.path.join(
-    os.environ.get("GONDOR_DATA_DIR", PACKAGE_ROOT),
+    PACKAGE_ROOT,
     "site_media",
     "static"
 )
