@@ -16,3 +16,6 @@ psycopg2==2.7.6.1
 pytz==2016.7
 requests==2.12.1
 whitenoise==3.2.2
+
+# @@@ pin reversion until we update pinax-blog
+django-reversion==2.0.10
