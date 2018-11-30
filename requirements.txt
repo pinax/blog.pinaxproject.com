@@ -3,6 +3,8 @@ Django==1.9.11
 dj-database-url==0.4.1
 django-bootstrap-form==3.2.1
 django-taggit==0.18.0
+# @@@ add explicit oauth2client dependency until we switch to django-storages
+oauth2client==4.1.3
 django_gapc_storage==0.2.1
 gunicorn==19.6.0
 Markdown==2.6.7
