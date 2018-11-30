@@ -15,13 +15,9 @@ DATABASES = {
 
 ALLOWED_HOSTS = [
     "localhost",
-    "blog.pinaxproject.com"
+    "blog.pinaxproject.com",
+    "blog-pinaxproject-com.herokuapp.com"
 ]
-
-if os.environ.get("GONDOR_INSTANCE_DOMAIN") is not None:
-    ALLOWED_HOSTS.append(
-        os.environ["GONDOR_INSTANCE_DOMAIN"]
-    )
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -48,12 +44,12 @@ USE_L10N = True
 USE_TZ = True
 
 MEDIA_ROOT = os.path.join(
-    os.environ.get("GONDOR_DATA_DIR", PACKAGE_ROOT),
+    PACKAGE_ROOT,
     "site_media",
     "media"
 )
 STATIC_ROOT = os.path.join(
-    os.environ.get("GONDOR_DATA_DIR", PACKAGE_ROOT),
+    PACKAGE_ROOT,
     "site_media",
     "static"
 )
@@ -115,6 +111,7 @@ TEMPLATES = [
 
 
 MIDDLEWARE_CLASSES = [
+    "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -219,3 +216,6 @@ EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 EMAIL_USE_TLS = True
 
 DEFAULT_FROM_EMAIL = "developers@pinaxproject.com"
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = bool(int(os.environ.get("SECURE_SSL_REDIRECT", "0")))
